@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <GVL Name="IPadresser" Id="{149521e5-0bdf-454f-a0fd-5c05f56d5ceb}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL PERSISTENT
+	//Global lista för hantering av IP-adresser/portar i program. 
+	//Vid ändring av IP-adress i drift kan man göra detta från webport-debugen. Välj enhet, datatyp STRING, adress IPadresser.sIPAddrElvaco1 (eller vad den i ditt fall heter). 
+	//Tryck Läs för att se att den ip som förväntas läses in. Ändra till den nya önskade ip-adressen.
+	
+	//Glöm ej att ändra init-värdet här nedan så att vi sedan har koll på vilken ip-adress det ska vara i projektet!
+
+
+	//sIPAddrElvaco1 : STRING := '192.168.1.31';
+
+	//sIPAddrModbus1 : STRING := '192.168.1.41'; 
+	//nTCPPortModbus1 : UINT := 502;
+	
+	//sIPAddrModbus2 : STRING := '192.168.1.42'; 
+	//nTCPPortModbus2 : UINT := 5021;
+	//nTCPPortModbus2 : UINT := 5022;
+	//nTCPPortModbus2 : UINT := 5023;
+	//nTCPPortModbus2 : UINT := 5024;
+	
+	//metz1_modbusTCP : ST_ModbusTCP := (sIPAddr:='192.168.0.111', nTCPPort:=502,iModbusLoop:=1);
+
+	//amsNetId_AS11 : STRING :=	'5.97.77.211.1.1';
+	///amsNetId_AS12 : STRING :=	'5.97.78.39.1.1';
+	//amsNetId_AS31 : STRING :=	'5.97.78.42.1.1';
+	//amsNetId_AS32 : STRING :=	'5.97.78.18.1.1';
+	//amsNetId_AS34 : STRING :=	'5.97.78.33.1.1';
+	//amsNetId_AS61 : STRING :=	'5.97.78.30.1.1';
+	//amsNetId_AS62 : STRING :=	'5.97.77.235.1.1';
+END_VAR
+
+]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="CheckDivReal" Id="{5211caa9-16cb-4e5e-b941-1f9ffcbba7a4}" SpecialFunc="CheckDivReal32">
+    <Declaration><![CDATA[FUNCTION CheckDivReal : REAL
+VAR_INPUT
+	divisor:REAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{noflow}
+IF divisor = 0 THEN
+	oaksGVL.udiCheckDivReal := oaksGVL.udiCheckDivReal + 1;
+	CheckDivReal := 1;
+ELSE
+	CheckDivReal:=divisor;
+END_IF;
+{flow}]]></ST>
+    </Implementation>
+    <LineIds Name="CheckDivReal">
+      <LineId Id="8" Count="1" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

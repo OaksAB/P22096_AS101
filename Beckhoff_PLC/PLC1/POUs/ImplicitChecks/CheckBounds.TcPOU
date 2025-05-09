@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="CheckBounds" Id="{4c8c0f24-d2b7-4a31-8f4c-5702f3088314}" SpecialFunc="CheckBounds">
+    <Declaration><![CDATA[FUNCTION CheckBounds : DINT
+VAR_INPUT
+	index, lower, upper: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{noflow}
+
+IF  index < lower THEN
+	CheckBounds := lower;
+	oaksGVL.udiCheckBounds := oaksGVL.udiCheckBounds + 1;
+ELSIF  index > upper THEN
+	CheckBounds := upper;
+	oaksGVL.udiCheckBounds := oaksGVL.udiCheckBounds + 1;
+ELSE  
+	CheckBounds := index;
+END_IF
+{flow}]]></ST>
+    </Implementation>
+    <LineIds Name="CheckBounds">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="14" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

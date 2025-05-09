@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="CheckDivDInt" Id="{dfc0335d-9086-475f-8f1f-2e8877911b63}" SpecialFunc="CheckDivInt32">
+    <Declaration><![CDATA[FUNCTION CheckDivDInt : DINT
+VAR_INPUT
+	divisor:DINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{noflow}
+IF divisor = 0 THEN
+	CheckDivDInt:=1;
+	oaksGVL.udiCheckDivDInt := oaksGVL.udiCheckDivDInt + 1;
+ELSE
+	CheckDivDInt:=divisor;
+END_IF;
+{flow}]]></ST>
+    </Implementation>
+    <LineIds Name="CheckDivDInt">
+      <LineId Id="8" Count="2" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="11" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

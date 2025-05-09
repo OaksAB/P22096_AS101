@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="CheckRangeUnsigned" Id="{c03d91ad-ef91-4863-8bbf-b533cc79d519}" SpecialFunc="CheckRangeUnsigned">
+    <Declaration><![CDATA[FUNCTION CheckRangeUnsigned : UDINT
+VAR_INPUT
+	value, lower, upper: UDINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{noflow}
+
+IF (value < lower) THEN
+	CheckRangeUnsigned := lower;
+	oaksGVL.udiCheckRangeUnsigned := oaksGVL.udiCheckRangeUnsigned + 1;
+ELSIF(value > upper) THEN
+	CheckRangeUnsigned := upper;
+	oaksGVL.udiCheckRangeUnsigned := oaksGVL.udiCheckRangeUnsigned + 1;
+ELSE
+	CheckRangeUnsigned := value;
+END_IF
+{flow}]]></ST>
+    </Implementation>
+    <LineIds Name="CheckRangeUnsigned">
+      <LineId Id="8" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="13" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
