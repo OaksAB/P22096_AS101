@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbTripleMotorControl_STL" Id="{79abd85f-37e9-4998-88e5-b67267ee37f0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbTripleMotorControl_STL
+VAR_INPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	bStart AT %M* : BOOL; //Startvilkor
+	bError1,bError2,bError3 : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	M AT %M*  : BOOL; //Manuell pumpväxling~wp:
+
+	rAnalogInput1 : REAL; //Analog ingång för steg 1
+	rAnalogInput2 : REAL; //Analog ingång för steg 2
+	rStartDelaySupportPump: REAL; //Startfördröjning paralleldrift
+	rStopDelaySupportPump: REAL; //Stoppfördröjning paralleldrift
+END_VAR
+VAR_OUTPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	PV AT %M* : INT; //Aktuellt pumpval~wp:[trendoption]i:300
+	bStartOutput1,bStartOutput2, bStartOutput3 : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	AL AT %M* : BOOL; //Driftfel trillingpumpar~wp:[trendoption]i:300[alarmoptions]p:1:
+	rAnalogOutput1, rAnalogOutput2, rAnalogOutput3: REAL; //Utsignal till motorer
+	bSupportPumpActive: BOOL; //Paralleldrift aktiv
+END_VAR
+VAR 
+	fbDayTrig: R_trig;
+	
+	
+	nActualDayCase	: INT;
+	nActualHour 	: INT;
+	nActualMinute 	: INT;
+	
+	nTime : INT; // Internvariabel aktuell tid (nActualHour+nActualMinute)
+	
+	bDay : BOOL; // Internvariabel blir TRUE om inställd dag är lika med aktuell dag
+	bTime : BOOL; // Internvariabel blir TRUE om inställd tid är lika med aktuell tid
+
+	fbHandsetToN: TON;
+	
+	
+	fbAlarm1 : fbAlarm;
+	
+	
+	fbChangeTON1 : TON;
+	fbChangeTOF1 : TOF;
+	
+	bStartSupportPump: BOOL;
+END_VAR
+VAR_INPUT PERSISTENT
+	{attribute 'OPC.UA.DA' := '1'}
+	SP1 AT %M*  : INT:=1; //Dag för pumpväxling (-1 = ingen växling 0 = Söndag 1 = Måndag 2 = Tisdag..6 = Söndag~wp:
+	{attribute 'OPC.UA.DA' := '1'}
+	SP2 AT %M*  : INT:=1000; //Tid för pumpväxling~wp:[format]00:00[engmin]0[engmax]2400
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+	fbHandsetToN.PT := T#1S;
+	fbHandsetToN(IN:=M);
+	
+	IF fbHandsetToN.Q THEN 
+		M := FALSE;
+	END_IF
+
+	nActualDayCase := oaksGVL.iDayOfWeek;
+	nActualHour := oaksGVL.iHour*100;
+	nActualMinute :=oaksGVL.iMinute;
+	
+	// nActualHour+nActualMinute
+	
+	nTime := nActualHour+nActualMinute;
+	
+	bDay := nActualDayCase = SP1;
+	bTime := nTime = SP2;
+
+
+	IF SP1 < -1 OR  SP1>7 THEN
+		SP1 := 1;
+	END_IF
+	
+	IF SP2 < 0 OR  SP2>2359 THEN
+		SP2 := 1200;
+	END_IF
+
+	IF PV < 1 OR PV > 3  THEN	
+		PV := 1;
+	END_IF;
+	
+	IF (bDay AND bTime) OR M THEN
+		fbDayTrig(CLK := TRUE);
+	ELSE
+		fbDayTrig(CLK := FALSE);
+	END_IF
+
+	IF fbDayTrig.Q THEN
+		IF PV = 1 THEN
+			PV := 2;
+		ELSIF PV = 2 THEN
+			PV:= 3;
+		ELSE
+			PV := 1;
+		END_IF
+	END_IF
+	
+	IF rAnalogInput1 = 100 THEN
+		bStartSupportPump:= TRUE;
+	ELSE 
+		bStartSupportPump:= FALSE;
+	END_IF
+	
+	
+	fbChangeTON1(IN:= bStartSupportPump, PT:= fRealToMinute(rStartDelaySupportPump), Q=> , ET=> );
+	fbChangeTOF1(IN:= fbChangeTON1.Q, PT:= fRealToMinute(rStopDelaySupportPump), Q=> , ET=> );
+	
+	bStartOutput1 := (((PV = 1 OR PV = 3) AND NOT bError1) OR (bError2 OR bError3)) AND bStart OR (bStart AND fbChangeTOF1.Q);
+	bStartOutput2 := (((PV = 1 OR PV = 2) AND NOT bError2) OR (bError1 OR bError3)) AND bStart OR (bStart AND fbChangeTOF1.Q);
+	bStartOutput3 := (((PV = 2 OR PV = 3) AND NOT bError3) OR (bError2 OR bError1)) AND bStart OR (bStart AND fbChangeTOF1.Q);
+
+	
+//Analog utsignal, vid larmande primärpump körs reservpump enligt sekvens 1.
+	IF PV = 1 THEN
+			IF NOT (bError1 OR bError2) THEN
+				rAnalogOutput1:= rAnalogInput1 ;
+				rAnalogOutput2:= rAnalogInput1 ;
+				rAnalogOutput3:= rAnalogInput2 ;
+			ELSIF  bError1 OR bError2 THEN
+				rAnalogOutput1:= rAnalogInput1 ;
+				rAnalogOutput2:= rAnalogInput1 ;
+				rAnalogOutput3:= rAnalogInput1 ;
+			END_IF
+		ELSIF PV = 2 THEN
+			IF NOT (bError2 OR bError3) THEN
+				rAnalogOutput1:= rAnalogInput2 ;
+				rAnalogOutput2:= rAnalogInput1 ;
+				rAnalogOutput3:= rAnalogInput1 ;
+			ELSIF bError2 OR bError3 THEN
+				rAnalogOutput1:= rAnalogInput1 ;
+				rAnalogOutput2:= rAnalogInput1 ;
+				rAnalogOutput3:= rAnalogInput1 ;
+			END_IF
+		ELSIF PV = 3 THEN
+			IF NOT (bError1 OR bError3) THEN
+				rAnalogOutput1:= rAnalogInput1 ;
+				rAnalogOutput2:= rAnalogInput2 ;
+				rAnalogOutput3:= rAnalogInput1 ;
+			ELSIF bError1 OR bError3 THEN
+				rAnalogOutput1:= rAnalogInput1 ;
+				rAnalogOutput2:= rAnalogInput1 ;
+				rAnalogOutput3:= rAnalogInput1 ;
+			END_IF
+		END_IF
+	
+	
+//Larm
+	bSupportPumpActive:= bStart AND fbChangeTOF1.Q;
+	fbAlarm1(bInput:= bError1 AND bError2 AND bError3, tAlarmDelay:= T#3S , bAutoReset:=TRUE , bAlarmOutput=> AL);
+	]]></ST>
+    </Implementation>
+    <LineIds Name="fbTripleMotorControl_STL">
+      <LineId Id="71" Count="0" />
+      <LineId Id="83" Count="40" />
+      <LineId Id="258" Count="1" />
+      <LineId Id="124" Count="2" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="153" Count="3" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="157" Count="2" />
+      <LineId Id="144" Count="1" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="312" Count="0" />
+      <LineId Id="318" Count="29" />
+      <LineId Id="317" Count="0" />
+      <LineId Id="313" Count="3" />
+      <LineId Id="149" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

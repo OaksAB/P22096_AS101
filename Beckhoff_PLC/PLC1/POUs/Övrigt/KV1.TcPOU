@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="KV1" Id="{41848bd6-7cd9-444a-b0cd-71036a1f0b41}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM KV1
+VAR
+	PPA201_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1	
+	PPA201: fbDigitalSignalLogic;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[PPA201(
+	bStart:= TRUE, 
+	bSafe:= TRUE, 
+	bHandsetBlock:= , 
+	tStartDelay:= , 
+	tStopDelay:= , 
+	CMD=> , 
+	AL8=> , 
+	STATE1=> , 
+	tStartDelayRemaining=> , 
+	tStopDelayRemaining=> , 
+	M:= , 
+	MCMD:= );]]></ST>
+    </Implementation>
+    <LineIds Name="KV1">
+      <LineId Id="8" Count="11" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

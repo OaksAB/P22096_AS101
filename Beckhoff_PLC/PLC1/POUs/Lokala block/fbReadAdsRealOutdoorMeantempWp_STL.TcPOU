@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbReadAdsRealOutdoorMeantempWp_STL" Id="{a33817d0-87a8-4c31-a8e4-b87f5e14b0c7}" SpecialFunc="None">
+    <Declaration><![CDATA[//Standard utetemperatur via ADS + handställning
+FUNCTION_BLOCK fbReadAdsRealOutdoorMeantempWp_STL
+VAR_INPUT
+	Enable			: BOOL := TRUE;					// Start
+	AmsNetId    	: T_AmsNetId; 					// AMS Net ID till enhet som skall avläsas
+	sApparatskap 	: STRING 	:= 'ASXX'; 			// Skriv här vilket apparatskåp utetemperaturen tas emot från. Endast för visning i PV4-tagg.
+    AdsPort     	: T_AmsPort := 851; 			// ADS-port till den enhet som skall avläsas
+	AdsTimeout    	: TIME := DEFAULT_ADS_TIMEOUT; 	// ADS-timout
+	Interval		: TIME := T#10S;				// Önskat intervall för läsning
+	ErrDelay		: TIME := T#5S;					// Larmfördröjning för fel
+	UseFallback		: BOOL;							// Sätts om fallbackvärde ska användas automatiskt vid fel
+	FallbackVal		: REAL := 0.0;					// Värde vid kom.fel eller manuellt val av fallback (knyt t ex lokal utegivare om den finns)
+	ForceFallback	: BOOL;							// Sätts om fallbackvärde ska användas ovillkorligt
+END_VAR
+VAR_OUTPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	PV  AT %M* : REAL; //Utetemperatur hämtat från apparatskåp via ads.~wp:[unit]°C[format]0.0
+	{attribute 'OPC.UA.DA' := '1'}
+	PV1  AT %M* : REAL; //Utetemperatur medel hämtat från apparatskåp via ads.~wp:[unit]°C[format]0.0
+	{attribute 'OPC.UA.DA' := '1'}
+	FAULT AT %M* : BOOL; //Kommunikationsfel mottagning utetemperatur~wp:
+	{attribute 'OPC.UA.DA' := '1'}
+	PV4 AT %M* : STRING;   //Inställt amsNetId och apparatskåp~wp:
+	AL8 AT %M* : BOOL; //Givare handställd~wp:[alarmoptions]p:3:
+END_VAR
+VAR	
+	fbUtetempMom	: fbReadADSReal;
+	fbUtetempMed	: fbReadADSReal;
+	fbAlarm1: fbAlarm;
+	
+END_VAR
+VAR_INPUT PERSISTENT
+	OPM AT %M*: REAL;//Värde handställning~wp:[unit]%[format]0[trendoptions]i:14400, t:1
+	M AT %M* : BOOL; //Handställning~wp:[trendoptions]i:14400, t:1
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF enable THEN
+	fbUtetempMom(Enable := enable, amsNetId := amsNetId, adsPort := adsPort, adsTimeout := adsTimeout, symbolName := 'oaksGVL.rOutdoorTemp', interval := interval, errDelay := errDelay, fallbackVal := fallbackVal, useFallback := UseFallback, forceFallback := forceFallback);
+	oaksGVL.rOutdoorTemp := SEL(M, fbUtetempMom.rOutputVar, OPM);
+	
+	fbUtetempMed(Enable := enable, amsNetId := amsNetId, adsPort := adsPort, adsTimeout := adsTimeout, symbolName := 'oaksGVL.rOutdoorTempMean', interval := interval, errDelay := errDelay, fallbackVal := fallbackVal, useFallback := UseFallback, forceFallback := forceFallback);
+	oaksGVL.rOutdoorTempMean := fbUtetempMed.rOutputVar;
+	
+	PV		:= oaksGVL.rOutdoorTemp;							// Skriv utetemp till utvariabel	
+	PV1		:= oaksGVL.rOutdoorTempMean;						// Skriv utetemp medel till utvariabel				
+	PV4		:= CONCAT(amsNetId, CONCAT('-', sApparatskap));		// Bygg ihop ID-sträng för visning
+	FAULT	:= fbUtetempMom.bErr OR fbUtetempMed.bErr;			// Sätt fel
+	
+	//Handställningslarm
+	fbAlarm1(bInput:=M , tAlarmDelay:= , bAutoReset:=TRUE , bAlarmOutput=>AL8 );
+END_IF;]]></ST>
+    </Implementation>
+    <LineIds Name="fbReadAdsRealOutdoorMeantempWp_STL">
+      <LineId Id="10" Count="10" />
+      <LineId Id="54" Count="2" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

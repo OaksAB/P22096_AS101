@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.50" TcVersionFixed="true">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.60" TcVersionFixed="true">
 	<Project ProjectGUID="{E2BC4F7A-D927-46F6-85F7-EE0D3782B2FF}" TargetNetId="5.96.142.157.1.1" ShowHideConfigurations="#x106">
 		<System>
 			<Licenses>
@@ -15,48 +15,218 @@
 		</System>
 		<Plc>
 			<Project GUID="{37E9A676-8721-4E25-BA01-15AB85432E50}" Name="PLC1" PrjFilePath="PLC1\PLC1.plcproj" TmcFilePath="PLC1\PLC1.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x0006" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC1\PLC1.tmc" TmcHash="{965F9239-972F-1642-0BA5-9284B054A51A}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC1\PLC1.tmc" TmcHash="{47F89E2B-8DC3-5CF9-CDA4-55C7F83163F3}">
 					<Name>PLC1 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>ASx.RST.V</Name>
-							<Comment><![CDATA[Ingång resetknapp~wp:]]></Comment>
+							<Name>AS101.RST.V</Name>
+							<Comment><![CDATA[Ingång resetknapp~wp:[trendoptions]i:14400, t:1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.CBL.V3</Name>
-							<Comment><![CDATA[Larmingång~wp:]]></Comment>
+							<Name>AS101.CBL.V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.AUT.V3</Name>
-							<Comment><![CDATA[Larmingång~wp:]]></Comment>
+							<Name>AS101.AUT.V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.JFB.V3</Name>
-							<Comment><![CDATA[Larmingång~wp:]]></Comment>
+							<Name>AS101.JFB.V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.OSP.V3</Name>
-							<Comment><![CDATA[Larmingång~wp:]]></Comment>
+							<Name>AS101.OSP.V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.GT3_NORR.usiState</Name>
+							<Name>KV1.PPA201_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>AS101.SYSTEM.nKbusState</Name>
+							<Comment><![CDATA[State for actual CX-BK. Linked to actual CX-BK.]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>AS101.FASBROTT.V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>KV1.PPA201.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>KV1.PPA201.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P12_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P13_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P12.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P12.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P13.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P13.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P14.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P14.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P15.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P15.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P14_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P15_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P13_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P15_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16_RC91_V</Name>
+							<Comment><![CDATA[Indikering hög nivå~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17_RC91_V</Name>
+							<Comment><![CDATA[Indikering hög nivå~wp:[trendoptions]i:14400, t:1		]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>VVC1.GT420.usiState</Name>
 							<Type>USINT</Type>
 						</Var>
 						<Var>
-							<Name>ASx.GT3_NORR.iDataIn</Name>
+							<Name>VVC1.GT420.iDataIn</Name>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>ASx.SYSTEM.nKbusState</Name>
-							<Comment><![CDATA[State for actual CX-BK. Linked to actual CX-BK.]]></Comment>
-							<Type>UINT</Type>
+							<Name>S1.P11_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17_QB_V3</Name>
+							<Comment><![CDATA[Larmingång~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P11_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P12_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P14_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17_V</Name>
+							<Comment><![CDATA[Indikering~wp:[trendoptions]i:14400, t:1	]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P11.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P11.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17.TI_bStateAuto</Name>
+							<Comment><![CDATA[Status Auto/Manuell]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17.TI_bStateRelay</Name>
+							<Comment><![CDATA[Status reläutgång]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -72,12 +242,62 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>ASx.GT3_NORR.usiCtrl</Name>
+							<Name>AS101.TCH1_bOutput</Name>
+							<Comment><![CDATA[Tidkanal 1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>AS101.TCH2_bOutput</Name>
+							<Comment><![CDATA[Tidkanal 2]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>KV1.PPA201.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P12.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P13.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.ST1_P14.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P15.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P16.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>VVC1.GT420.usiCtrl</Name>
 							<Type>USINT</Type>
 						</Var>
 						<Var>
-							<Name>ASx.GT3_NORR.iDataOut</Name>
+							<Name>VVC1.GT420.iDataOut</Name>
 							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>S1.P11.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>S1.P17.CMD</Name>
+							<Comment><![CDATA[Utsignal~wp:[trendoptions]i:14400, t:1]]></Comment>
+							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<Contexts>
@@ -101,7 +321,7 @@
 			<Device Id="2" DevType="120">
 				<Name>Device 2 (CX-BK)</Name>
 				<DevData>000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ffff0000000000000100000007000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</DevData>
-				<Image Id="1" AddrType="1" ImageType="3" SizeIn="6" SizeOut="6">
+				<Image Id="1" AddrType="1" ImageType="3" SizeIn="30" SizeOut="32">
 					<Name>Image</Name>
 				</Image>
 				<Box Id="1" BoxType="9703" AmsPort="28928">
@@ -140,7 +360,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>32</BitOffs>
+									<BitOffs>224</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -149,7 +369,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>33</BitOffs>
+									<BitOffs>225</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -158,7 +378,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>34</BitOffs>
+									<BitOffs>226</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -167,7 +387,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>35</BitOffs>
+									<BitOffs>227</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -176,7 +396,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>36</BitOffs>
+									<BitOffs>228</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -185,7 +405,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>37</BitOffs>
+									<BitOffs>229</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -194,7 +414,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>38</BitOffs>
+									<BitOffs>230</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -203,7 +423,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>39</BitOffs>
+									<BitOffs>231</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -216,7 +436,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>40</BitOffs>
+									<BitOffs>232</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -225,7 +445,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>41</BitOffs>
+									<BitOffs>233</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -234,7 +454,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>42</BitOffs>
+									<BitOffs>234</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -243,7 +463,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>43</BitOffs>
+									<BitOffs>235</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -252,7 +472,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>44</BitOffs>
+									<BitOffs>236</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -261,7 +481,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>45</BitOffs>
+									<BitOffs>237</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -270,7 +490,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>46</BitOffs>
+									<BitOffs>238</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -279,7 +499,159 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Input</Name>
 									<Type>BIT</Type>
-									<BitOffs>47</BitOffs>
+									<BitOffs>239</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="5" TermType="#x580" Fieldbus="6">
+							<Name>Term 5 (KL1408)</Name>
+							<ImageId>7</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>240</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>241</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>242</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>243</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 5</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>244</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 6</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>245</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 7</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>246</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 8</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>247</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="6" TermType="#x580" Fieldbus="6">
+							<Name>Term 6 (KL1408)</Name>
+							<ImageId>7</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>248</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>249</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>250</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>251</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 5</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>252</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 6</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>253</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 7</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>254</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 8</Name>
+								<Var>
+									<Name>Input</Name>
+									<Type>BIT</Type>
+									<BitOffs>255</BitOffs>
 									<InOut>0</InOut>
 								</Var>
 							</Vars>
@@ -292,7 +664,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>32</BitOffs>
+									<BitOffs>224</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -301,7 +673,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>33</BitOffs>
+									<BitOffs>225</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -310,7 +682,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>34</BitOffs>
+									<BitOffs>226</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -319,7 +691,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>35</BitOffs>
+									<BitOffs>227</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -328,7 +700,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>36</BitOffs>
+									<BitOffs>228</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -337,7 +709,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>37</BitOffs>
+									<BitOffs>229</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -346,7 +718,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>38</BitOffs>
+									<BitOffs>230</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -355,7 +727,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>39</BitOffs>
+									<BitOffs>231</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -364,7 +736,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>40</BitOffs>
+									<BitOffs>232</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -373,7 +745,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>41</BitOffs>
+									<BitOffs>233</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -382,7 +754,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>42</BitOffs>
+									<BitOffs>234</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -391,7 +763,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>43</BitOffs>
+									<BitOffs>235</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -400,7 +772,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>44</BitOffs>
+									<BitOffs>236</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -409,7 +781,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>45</BitOffs>
+									<BitOffs>237</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -418,7 +790,7 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>46</BitOffs>
+									<BitOffs>238</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -427,7 +799,231 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 								<Var>
 									<Name>Output</Name>
 									<Type>BIT</Type>
-									<BitOffs>47</BitOffs>
+									<BitOffs>239</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="7" TermType="#x2000c88" Fieldbus="6">
+							<Name>Term 7 (KL3208-0010-4)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>32</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>40</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>32</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>40</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>56</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>56</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>64</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>80</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>88</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>80</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>88</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>104</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>104</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>112</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="8" TermType="#x2000c88" Fieldbus="6">
+							<Name>Term 8 (KL3208-0010-4)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Channel 1</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>128</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>136</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>128</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>136</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 2</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>152</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>152</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>160</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 3</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>176</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>184</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>176</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>184</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Channel 4</Name>
+								<Var>
+									<Name>State</Name>
+									<Type>USINT</Type>
+									<BitOffs>200</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data In</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Ctrl</Name>
+									<Type>USINT</Type>
+									<BitOffs>200</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var DisplayScale="#x5">
+									<Name>Data Out</Name>
+									<Type>INT</Type>
+									<BitOffs>208</BitOffs>
 									<InOut>1</InOut>
 								</Var>
 							</Vars>
@@ -446,7 +1042,45 @@ Bit 15 = Acyc. Function atcive (e.g. K-Bus Reset)
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^PLC1^PLC1 Instance">
 			<OwnerB Name="TIID^Device 2 (CX-BK)^Box 1 (CX-BK)">
-				<Link VarA="PlcTask Inputs^ASx.SYSTEM.nKbusState" VarB="Inputs^State"/>
+				<Link VarA="PlcTask Inputs^AS101.AUT.V3" VarB="Term 2 (KL1408)^Channel 6^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.CBL.V3" VarB="Term 2 (KL1408)^Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.FASBROTT.V3" VarB="Term 2 (KL1408)^Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.JFB.V3" VarB="Term 2 (KL1408)^Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.OSP.V3" VarB="Term 2 (KL1408)^Channel 5^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.RST.V" VarB="Term 2 (KL1408)^Channel 3^Input"/>
+				<Link VarA="PlcTask Inputs^AS101.SYSTEM.nKbusState" VarB="Inputs^State"/>
+				<Link VarA="PlcTask Inputs^KV1.PPA201_V" VarB="Term 5 (KL1408)^Channel 7^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P11_QB_V3" VarB="Term 2 (KL1408)^Channel 7^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P11_V" VarB="Term 2 (KL1408)^Channel 8^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P12_QB_V3" VarB="Term 4 (KL1408)^Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P13_QB_V3" VarB="Term 4 (KL1408)^Channel 3^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P13_V" VarB="Term 4 (KL1408)^Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P14_QB_V3" VarB="Term 4 (KL1408)^Channel 5^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P15_QB_V3" VarB="Term 4 (KL1408)^Channel 7^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P15_V" VarB="Term 4 (KL1408)^Channel 8^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P16_QB_V3" VarB="Term 5 (KL1408)^Channel 1^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P16_RC91_V" VarB="Term 5 (KL1408)^Channel 3^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P16_V" VarB="Term 5 (KL1408)^Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P17_QB_V3" VarB="Term 5 (KL1408)^Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P17_RC91_V" VarB="Term 5 (KL1408)^Channel 6^Input"/>
+				<Link VarA="PlcTask Inputs^S1.P17_V" VarB="Term 5 (KL1408)^Channel 5^Input"/>
+				<Link VarA="PlcTask Inputs^S1.ST1_P12_V" VarB="Term 4 (KL1408)^Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^S1.ST1_P14_V" VarB="Term 4 (KL1408)^Channel 6^Input"/>
+				<Link VarA="PlcTask Inputs^VVC1.GT420.iDataIn" VarB="Term 7 (KL3208-0010-4)^Channel 1^Data In"/>
+				<Link VarA="PlcTask Inputs^VVC1.GT420.usiState" VarB="Term 7 (KL3208-0010-4)^Channel 1^State"/>
+				<Link VarA="PlcTask Outputs^AS101.TCH1_bOutput" VarB="Term 3 (KL2809)^Channel 2^Output"/>
+				<Link VarA="PlcTask Outputs^AS101.TCH2_bOutput" VarB="Term 3 (KL2809)^Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^KV1.PPA201.CMD" VarB="Term 3 (KL2809)^Channel 11^Output"/>
+				<Link VarA="PlcTask Outputs^S1.P11.CMD" VarB="Term 3 (KL2809)^Channel 4^Output"/>
+				<Link VarA="PlcTask Outputs^S1.P13.CMD" VarB="Term 3 (KL2809)^Channel 6^Output"/>
+				<Link VarA="PlcTask Outputs^S1.P15.CMD" VarB="Term 3 (KL2809)^Channel 8^Output"/>
+				<Link VarA="PlcTask Outputs^S1.P16.CMD" VarB="Term 3 (KL2809)^Channel 9^Output"/>
+				<Link VarA="PlcTask Outputs^S1.P17.CMD" VarB="Term 3 (KL2809)^Channel 10^Output"/>
+				<Link VarA="PlcTask Outputs^S1.ST1_P12.CMD" VarB="Term 3 (KL2809)^Channel 5^Output"/>
+				<Link VarA="PlcTask Outputs^S1.ST1_P14.CMD" VarB="Term 3 (KL2809)^Channel 7^Output"/>
+				<Link VarA="PlcTask Outputs^VVC1.GT420.iDataOut" VarB="Term 7 (KL3208-0010-4)^Channel 1^Data Out"/>
+				<Link VarA="PlcTask Outputs^VVC1.GT420.usiCtrl" VarB="Term 7 (KL3208-0010-4)^Channel 1^Ctrl"/>
+				<Link VarA="PlcTask Outputs^oaksGVL.bSummalarm" VarB="Term 3 (KL2809)^Channel 1^Output"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbDamperIndication_STL" Id="{5a6bd68a-f3b5-4248-aaf7-a50f44469c4e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbDamperIndication_STL
+VAR_INPUT
+	bStart : BOOL; // startvillkor
+	bSafe: BOOL; // Säkerhetsvillkor
+	bHandsetBlock : BOOL; // Används för blockering av handställning utan att blockera utsignal i autoläge. OBS! - För säkerhetsvillkor se ingång bSafe!
+	tStartDelay : TIME := T#0S; // Startfördröjning
+	tStopDelay : TIME := T#0S; // Stoppfördröjning
+	tAlarmDelay : TIME := T#180S; // Larmfördröjning
+END_VAR
+VAR_OUTPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	CMD AT %Q* : BOOL; //Utsignal~wp:[trendoptions]i:14400, t:1
+	{attribute 'OPC.UA.DA' := '1'}
+	AL8 AT %M* : BOOL; //Utsignal handställd~wp:[alarmoptions]p:3
+	{attribute 'OPC.UA.DA' := '1'}
+	V0 AT %I* : BOOL; //Stängtindikering~wp:[trendoptions]i:14400, t:1
+	{attribute 'OPC.UA.DA' := '1'}
+	V1 AT %I* : BOOL; //Öppetindikering~wp:[trendoptions]i:14400, t:1
+	{attribute 'OPC.UA.DA' := '1'}
+	AL AT %M* : BOOL; //Spjällfel~wp:
+	STATE1 AT %M* : STRING; //Status IO-modul~wp:
+	tStartDelayRemaining : TIME; // Aktuell  återstående tid startfördröjning
+	tStopDelayRemaining : TIME; // Aktuell återstående tid toppfördröjning
+END_VAR
+VAR
+	bInternalStart : BOOL;
+	fbAlarm2 : fbAlarm; // Larm handställning
+	//Handställningsvariabler från IO
+	TI_bStateAuto AT %I* :BOOL :=TRUE; //Status Auto/Manuell
+	TI_bStateRelay AT %I* :BOOL :=FALSE; //Status reläutgång
+	bIOManual : BOOL;
+	
+	fbStartDelay: TON; // Startfördröjning
+	fbStopDelay: TOF; // Stoppfördröjning
+	
+	fbAlarm1: fbAlarm;
+	bAlarm: BOOL;
+END_VAR
+VAR_INPUT PERSISTENT
+	{attribute 'OPC.UA.DA' := '1'}
+	M AT %M* : BOOL; //Handställning~wp:[trendoptions]i:14400, t:1
+	{attribute 'OPC.UA.DA' := '1'}
+	MCMD AT %M* : BOOL; //Styrsignal handställning~wp:[trendoptions]i:14400, t:1
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	//Handställning
+	fbAlarm2(bInput:=M OR NOT TI_bStateAuto, tAlarmDelay:= , bAutoReset:=TRUE , bAlarmOutput=>AL8 );
+	
+	IF NOT bSafe OR bHandsetBlock THEN
+		M := FALSE;
+	END_IF;
+	
+	//Manuell omkopplare IO-modul
+	bIOManual := fKx2652State(bAuto := TI_bStateAuto, bRelayStatus := TI_bStateRelay, sState => STATE1);
+	
+	
+	//Start-/stoppfördröjning
+    fbStartDelay(IN:=bStart , PT:=tStartDelay , Q=> , ET=> );
+	fbStopDelay(IN:=fbStartDelay.Q, PT:=tStopDelay , Q=> , ET=> );
+	
+	tStopDelayRemaining:= (fbStopDelay.PT - fbStopDelay.ET);
+	tStartDelayRemaining:=(fbStartDelay.PT - fbStartDelay.ET);
+	
+	bInternalStart := fbStopDelay.Q;
+	
+	IF NOT TI_bStateAuto THEN
+		CMD := bIOManual;
+	ELSE
+		CMD := (((bInternalStart AND NOT M) OR (M AND MCMD)) AND bSafe) OR bIOManual;
+	END_IF
+	
+	//Larm
+	bAlarm := (NOT CMD AND NOT V0) OR (CMD AND NOT V1);
+
+	fbAlarm1(bInput:=bAlarm , tAlarmDelay:=tAlarmDelay , bAutoReset:= TRUE, bAlarmOutput=> AL);]]></ST>
+    </Implementation>
+    <LineIds Name="fbDamperIndication_STL">
+      <LineId Id="3" Count="28" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

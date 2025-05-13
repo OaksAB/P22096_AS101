@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbHeatPumpSr_StartStopDelay" Id="{ef49d195-dfe8-411e-ad33-d3034edc5736}" SpecialFunc="None">
+    <Declaration><![CDATA[// Block för start/stopp på utetemperatur. Utgången går till då utetemp underskrider inställt värde under inställd tid 
+// eller när utetemp underskrider gräns för direktstart. Utgången går från då utetemperatur överstigit inställt värde under inställd tid.
+FUNCTION_BLOCK fbHeatPumpSr_StartStopDelay
+VAR_INPUT
+	rOutdoorTemp : ANY; // Utetemperatur Knyter man inget här används oaksGVL.rOutdoortemp
+END_VAR
+VAR_IN_OUT 
+	rDirectStart	: REAL; // Starta bOutput utan fördröjning då rOutdoorTemp underskrider
+	rStartLimit 	: REAL; // Starta bOutput då rOutdoorTemp underskrider
+	rStopLimit 		: REAL; // Stoppa bOutput då rOutdoorTemp överstiger
+	iStopDelay 		: INT;  // Stoppfördröjning
+	iStartDelay		: INT;  // Startfördröjning
+
+END_VAR
+VAR_OUTPUT
+	bOutput 		: BOOL; // Utsignal
+	bStopDelayOdt 	: BOOL; // Stoppfördröjning aktiv via utetemperatur
+	bStartDelayOdt 	: BOOL; // Startfördröjning aktiv via utetemperatur
+END_VAR
+VAR
+	rTempUsed 		: REAL; // Uteluftstemperatur
+	bInternalStart 	: BOOL;
+	fbPumpTof : TOF;
+	fbPumpTon : TON;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Temp select
+	rTempUsed := F_GetTempToUse(rOutdoorTemp);
+
+IF  rStartLimit > rStopLimit THEN
+	rStopLimit := rStartLimit + 1;
+END_IF
+
+IF rTempUsed < rStartLimit  THEN
+	bInternalStart := TRUE;
+ELSIF rTempUsed > rStopLimit THEN
+	bInternalStart := FALSE;	
+END_IF
+
+fbPumpTon(IN:=bInternalStart , PT:=INT_TO_TIME(iStartDelay)*60000 , Q=> , ET=> );
+fbPumpTof(IN:=fbPumpTon.Q OR (rTempUsed < MAX(rDirectStart, 5.0)) , PT:=INT_TO_TIME(iStopDelay)*60000  , Q=> , ET=> );
+
+//Startfördröjning aktiv
+bStartDelayOdt :=  bInternalStart AND NOT fbPumpTon.Q;
+//Stoppfördröjning aktiv
+bStopDelayOdt := NOT bInternalStart AND fbPumpTof.Q;
+
+
+bOutput:= fbPumpTof.Q ;]]></ST>
+    </Implementation>
+    <LineIds Name="fbHeatPumpSr_StartStopDelay">
+      <LineId Id="115" Count="21" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

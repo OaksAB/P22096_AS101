@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbfreezAlarm_markvarme" Id="{2715aef2-d721-4b49-9b1c-96beb3def8d8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbfreezAlarm_markvarme EXTENDS fbFreezeAlarm
+//Frysvaktsblock med integrerad handställbar pt1000-givare. Handställning förreglas om insignal underskrider 12 grader eller vid givarfel.
+//Minbegränsning returtemperatur vid drift stopp aggregat går ej att ställa under 10°C.
+
+VAR_INPUT
+	bOperationIndication : BOOL; // Driftindikering för tilluftsfläkt kopplas hit. Används för att avgöra vilket minbegränsningsbörvärde som skall användas.
+END_VAR
+VAR_OUTPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	LAL AT %M* : BOOL; //Frysvakt~wp:[alarmoptions]p:1,rst:OAKSGVL_RST=1
+	rMinOutput : REAL; // Utsignal minbegränsning returvattenregulator 
+END_VAR
+VAR
+	fbReg01 : Tc3_BA_Common.FB_BA_PIDCtrl;
+	rSetpoint : REAL;
+	fbFreezeInterlock : fbAlarm;
+	//itemp :INT;
+	{attribute 'OPC.UA.DA' := '1'}
+	PV8 AT %M* : REAL; //Aktuell reglersignal minbegränsningsregulator~wp:[unit]%[format]0[trendoptions]i:300
+END_VAR
+VAR_INPUT PERSISTENT
+	{attribute 'OPC.UA.DA' := '1'}
+	ALL AT %M* : REAL := 7; //Larmgräns frysvakt~wp:[unit]°C[format]0.0
+	{attribute 'OPC.UA.DA' := '1'}
+	SP1 AT %M* : REAL := 12; //Minbegränsning returtemperatur vid drift av pump~wp:[unit]°C[format]0.0
+	{attribute 'OPC.UA.DA' := '1'}
+	SP2 AT %M* : REAL := 15; //Minbegränsning returtemperatur vid drift stopp av pump~wp:[unit]°C[format]0.0
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[	SUPER^();
+
+	//Handställning förreglas om insignal underskrider 12 grader eller vid givarfel
+	IF FB_BA_AI01.rVal < 12 OR FAULT THEN
+		M := FALSE;
+	END_IF
+	
+	// Minbegränsning av frysvaktsinställning 5 grader
+	IF ALL < 5.0 THEN 
+		ALL := 5.0;
+	END_IF
+
+	
+	// Frysvaktslarm om temperatur underskrider inställt värde. 
+	fbFreezeInterlock(
+	bInput:= PV < ALL OR FAULT, 
+	tAlarmDelay:= T#3S , 
+	bAutoReset:=FALSE , 
+	bAlarmOutput=> LAL);
+	
+	
+	// Minbegränsning av inställningsvärde för returtemperatur vid stopp av aggregat
+	IF SP2 < 10.0 THEN 
+		SP2 := 10.0;
+	END_IF
+	// Val av börvärde till minbegränsningsregulator
+	IF bOperationIndication THEN
+		rSetpoint := SP1;
+	ELSE
+		rSetpoint := SP2;
+	END_IF
+	
+	fbReg01(
+	bEn:=TRUE , 
+	rW:=rSetpoint , 
+	rX:=PV , 
+	udiOpMode:= , 
+	bActn:= , 
+	rKp:= 20, 
+	udiTn_ms:= , 
+	udiTv_ms:= , 
+	udiTd_ms:= , 
+	rYMax:=100 , 
+	rYMin:= 0, 
+	rNZ:= , 
+	udiCycCl:= , 
+	bSync:= , 
+	rSync:= , 
+	rY=> , 
+	rE=> , 
+	bARW=> );
+	
+	IF NOT FAULT THEN
+		rMinOutput := fbReg01.rY;
+	ELSE
+		rMinOutput := 100;
+	END_IF
+	// För visning och trendning i webport
+	PV8 := rMinOutput;
+	]]></ST>
+    </Implementation>
+    <LineIds Name="fbfreezAlarm_markvarme">
+      <LineId Id="10" Count="58" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

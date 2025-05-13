@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="fbTwinMotorHeatWoV" Id="{af4146ef-93d1-49ea-88a3-e36c5e8382c3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fbTwinMotorHeatWoV
+VAR_INPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	V AT %M* : BOOL; //Startsignal~wp:[trendoption]i:300
+	bError1,bError2 : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	M AT %M*  : BOOL; //Manuell pumpväxling~wp:
+	rOutdoorTemp : ANY; //Utetemperatur används för start/stopp Knyter man inget här används oaksGVL.rOutdoortemp
+	bCustomStartCon : BOOL := TRUE; //Om ytterligare villkor för start/stopp finns lägg detta här
+	
+	rAnalogInput1 : REAL; //Analog ingång för steg 1
+	rAnalogInput2 : REAL; //Analog ingång för steg 2
+END_VAR
+VAR_OUTPUT
+	{attribute 'OPC.UA.DA' := '1'}
+	PV AT %M* : INT; //Aktuellt pumpval~wp:[trendoption]i:300
+	bStartOutput1,bStartOutput2 : BOOL;
+	{attribute 'OPC.UA.DA' := '1'}
+	AL AT %M* : BOOL; //Driftfel parpumpar~wp:[trendoption]i:300[alarmoptions]p:1:
+END_VAR
+VAR 
+	fbDayTrig: R_trig;
+	
+	
+	nActualDayCase	: INT;
+	nActualHour 	: INT;
+	nActualMinute 	: INT;
+	
+	nTime : INT; // Internvariabel aktuell tid (nActualHour+nActualMinute)
+	
+	bDay : BOOL; // Internvariabel blir TRUE om inställd dag är lika med aktuell dag
+	bTime : BOOL; // Internvariabel blir TRUE om inställd tid är lika med aktuell tid
+
+	fbHandsetToN: TON;
+	
+	
+	fbAlarm1 : fbAlarm;
+	
+	fbHeatPumpSr1 : fbHeatPumpSr;
+	rTempUsed : REAL; //Uteluftstemperatur
+	
+	fbChangeTON1, fbChangeTON2 : TON;
+	fbChangeTOF1, fbChangeTOF2 : TOF;
+	
+	bStartSupport1, bStartSupport2 : BOOL;
+END_VAR
+VAR_INPUT PERSISTENT
+	{attribute 'OPC.UA.DA' := '1'}
+	SP1 AT %M*  : INT:=1; //Dag för pumpväxling (-1 = ingen växling 0 = Söndag 1 = Måndag 2 = Tisdag..6 = Söndag~wp:
+	{attribute 'OPC.UA.DA' := '1'}
+	SP2 AT %M*  : INT:=1000; //Tid för pumpväxling~wp:[format]00:00[engmin]0[engmax]2400
+	{attribute 'OPC.UA.DA' := '1'}
+	SP7 AT %M* : INT := 15; //Stoppfördröjning~wp:[unit]min
+	{attribute 'OPC.UA.DA' := '1'}
+	SP3 AT %M* : REAL := 17;  //Stoppa värmesystem om utetemp överstiger~wp:[unit]°C[format]0.0
+	{attribute 'OPC.UA.DA' := '1'}
+	SP4 AT %M* : REAL := 14; //Starta värmesystem om utetemp underskrider~wp:[unit]°C[format]0.0
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	SP5 AT %M*  : REAL:=10; //Starta stödpump då utsignal är 100% i~wp:[unit]min[format]0
+	{attribute 'OPC.UA.DA' := '1'}
+	SP6 AT %M*  : REAL:=5; //Stoppa stödpump då utsignal är 0% i~wp:[unit]min[format]0
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//Temp select
+	rTempUsed := F_GetTempToUse(rOutdoorTemp);
+	
+fbHeatPumpSr1(
+	rOutdoorTemp:=rTempUsed , 
+	rStartLimit:= SP4, 
+	rStopLimit:=SP3 , 
+	iStopDelay:=SP7 , 
+	bOutput=> );
+	
+	V := fbHeatPumpSr1.bOutput AND bCustomStartCon;
+
+	fbHandsetToN.PT := T#1S;
+	fbHandsetToN(IN:=M);
+	
+	IF fbHandsetToN.Q THEN 
+		M := FALSE;
+	END_IF
+
+	nActualDayCase := oaksGVL.iDayOfWeek;
+	nActualHour := oaksGVL.iHour*100;
+	nActualMinute :=oaksGVL.iMinute;
+	
+	// nActualHour+nActualMinute
+	
+	nTime := nActualHour+nActualMinute;
+	
+	bDay := nActualDayCase = SP1;
+	bTime := nTime = SP2;
+
+
+	IF SP1 < -1 OR  SP1>7 THEN
+		SP1 := 1;
+	END_IF
+	
+	IF SP2 < 0 OR  SP2>2359 THEN
+		SP2 := 1200;
+	END_IF
+
+	IF PV < 1 OR PV > 2  THEN	
+		PV := 1;
+	END_IF;
+	
+	IF (bDay AND bTime) OR M THEN
+		fbDayTrig(CLK := TRUE);
+	ELSE
+		fbDayTrig(CLK := FALSE);
+	END_IF
+
+	IF fbDayTrig.Q THEN
+		IF PV = 1 THEN
+			PV := 2;
+		ELSE
+			PV := 1;
+		END_IF
+	END_IF
+	
+	IF (PV = 1) AND (rAnalogInput1 = 100) THEN
+		bStartSupport2 := TRUE;
+	ELSIF (PV = 1) (* AND (rAnalogInput2 = 0) *) AND (rAnalogInput1 < 100) THEN
+		bStartSupport2 := FALSE;
+	END_IF
+	
+	fbChangeTON1(IN:= bStartSupport2, PT:= fRealToMinute(rMinute:= SP5), Q=> , ET=> );
+	fbChangeTOF1(IN:= fbChangeTON1.Q, PT:= fRealToMinute(rMinute:= SP6), Q=> , ET=> );
+	
+	IF (PV = 2) AND (rAnalogInput2 = 100) THEN
+		bStartSupport1 := TRUE;
+	ELSIF (PV = 2) (* AND (rAnalogInput1 = 0) *) AND (rAnalogInput2 < 100) THEN
+		bStartSupport1 := FALSE;
+	END_IF
+	
+	fbChangeTON2(IN:= bStartSupport1, PT:= fRealToMinute(rMinute:= SP5), Q=> , ET=> );
+	fbChangeTOF2(IN:= fbChangeTON2.Q, PT:= fRealToMinute(rMinute:= SP6), Q=> , ET=> );
+	
+	bStartOutput1 := (((PV = 1 AND NOT bError1) OR bError2) OR fbChangeTOF2.Q) AND V ;
+	bStartOutput2 := (((PV = 2 AND NOT bError2) OR bError1) OR fbChangeTOF1.Q) AND V;
+
+	fbAlarm1(bInput:= bError1 AND bError2 , tAlarmDelay:= T#3S , bAutoReset:=TRUE , bAlarmOutput=> AL);
+	
+	]]></ST>
+    </Implementation>
+    <LineIds Name="fbTwinMotorHeatWoV">
+      <LineId Id="3" Count="79" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
   <POU Name="MAIN" Id="{a2945148-3502-4861-8d96-4b8191e12331}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
@@ -7,11 +7,15 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Apparatskåp
-ASx();]]></ST>
+AS101();
+KV1();
+S1();
+VVC1();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="316" Count="0" />
       <LineId Id="311" Count="0" />
+      <LineId Id="320" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

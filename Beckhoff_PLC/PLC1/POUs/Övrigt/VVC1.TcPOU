@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="VVC1" Id="{e2761313-f2da-4c18-82cf-7ec02c0102f0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM VVC1
+VAR
+	GT420: fbPT1000;
+	larm1: fbLowLimitAlarm;
+END_VAR
+VAR PERSISTENT
+	GT420_LAD: REAL := 30; //Larmfördröjning låg temperatur~wp:[unit]min
+	GT420_ALL: REAL := 45; //Larmgräns låg temperatur~wp:[unit]°C[format]0.0[trendoption]i:300
+END_VAR
+VAR_OUTPUT
+	GT420_LAL	: BOOL; //Larm låg VVC returtemp~wp:[alarmoptions]p:C
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[GT420(
+	M:= , 
+	iSensorType:= , 
+	iTerminalType:= , 
+	bPt100:= , 
+	bFaultVal:= , 
+	rFaultVal:= , 
+	PV=> , 
+	FAULT=> , 
+	AL8=> , 
+	OPM:= , 
+	rCal:= , 
+	iMedelvardeSekunder:= );
+	
+larm1(	bInput:= ,	tAlarmDelay:= fRealToMinute(GT420_LAD),	bAutoReset:= TRUE,	bAlarmOutput=> GT420_LAL,	bEnable:= TRUE,	rProcessValue:= GT420.PV,rLowLimit:= GT420_ALL);]]></ST>
+    </Implementation>
+    <LineIds Name="VVC1">
+      <LineId Id="7" Count="11" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="20" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

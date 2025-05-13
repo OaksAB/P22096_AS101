@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.13">
+  <POU Name="S1" Id="{b214d014-68e3-46ef-abec-32cb39baeb9c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM S1
+VAR
+	larm1: fbalarm;
+	larm2: fbalarm;
+	larm3: fbalarm;
+	larm4: fbalarm;
+	larm5: fbalarm;
+	larm6: fbalarm;
+	larm7: fbalarm;	
+END_VAR
+VAR_OUTPUT
+	P11_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B	
+	P12_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B	
+	P13_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B	
+	P14_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B	
+	P15_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B		
+	P16_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B
+	P17_QB_AL: BOOL;	//Frånslagen säkerhetsbrytare~wp:[trendoption]i:300[alarmoptions]p:B	
+	P11: fbDigitalSignalLogic;	
+	ST1_P12: fbDigitalSignalLogic;
+	P13: fbDigitalSignalLogic;
+	ST1_P14: fbDigitalSignalLogic;
+	P15: fbDigitalSignalLogic;	
+	P16: fbDigitalSignalLogic;
+	P17: fbDigitalSignalLogic;	
+END_VAR
+VAR_INPUT
+	P11_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1	
+	P12_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1
+	P13_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1
+	P14_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1
+	P15_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1	
+	P16_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1
+	P17_QB_V3 AT %I*: BOOL; 	//Larmingång~wp:[trendoptions]i:14400, t:1	
+	
+	
+	P11_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1	
+	ST1_P12_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1
+	P13_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1
+	ST1_P14_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1
+	P15_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1	
+	P16_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1
+	P17_V AT %I*: BOOL; 	//Indikering~wp:[trendoptions]i:14400, t:1	
+
+
+	P16_RC91_V AT %I*: BOOL; 	//Indikering hög nivå~wp:[trendoptions]i:14400, t:1	
+	P17_RC91_V AT %I*: BOOL; 	//Indikering hög nivå~wp:[trendoptions]i:14400, t:1		
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[P11(bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+ST1_P12(bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+P13(	bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+ST1_P14(bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+P15(	bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+P16(	bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+P17(	bStart:= TRUE, 	bSafe:= NOT AS101.CBL.AL, 	bHandsetBlock:= , 	tStartDelay:= , 	tStopDelay:= , 	CMD=> , 	AL8=> , 	STATE1=> , 	tStartDelayRemaining=> , 	tStopDelayRemaining=> , 	M:= , 	MCMD:= );
+
+//larm
+larm6(bInput:= NOT P11_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P11_QB_AL);
+larm1(bInput:= NOT P12_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P12_QB_AL);
+larm2(bInput:= NOT P13_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P13_QB_AL);
+larm3(bInput:= NOT P14_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P14_QB_AL);
+larm4(bInput:= NOT P15_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P15_QB_AL);
+larm5(bInput:= NOT P16_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P16_QB_AL);
+larm7(bInput:= NOT P17_QB_V3, tAlarmDelay:= T#3S, bAutoReset:= TRUE, bAlarmOutput=> P17_QB_AL);]]></ST>
+    </Implementation>
+    <LineIds Name="S1">
+      <LineId Id="227" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="211" Count="0" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="148" Count="1" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="150" Count="3" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="232" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

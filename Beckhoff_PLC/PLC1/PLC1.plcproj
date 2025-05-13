@@ -55,10 +55,40 @@
     <Compile Include="POUs\ImplicitChecks\CheckRangeUnsigned.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Lokala block\fbDamperIndication_STL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbfreezAlarm_markvarme.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbHeatPumpSr_StartStopDelay.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbReadAdsRealOutdoorMeantempWp_STL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbTripleMotorControl_STL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbTwinMotorControl_STL.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Lokala block\fbTwinMotorHeatWoV.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Övrigt\ASx.TcPOU">
+    <Compile Include="POUs\Övrigt\AS101.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Övrigt\KV1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Övrigt\S1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Övrigt\VVC1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
